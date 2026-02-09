@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الصعيدي درينك | قائمة المشروبات</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* =================================================================== */
+        /*          1. المتغيرات العامة والأساسيات (Global & Base)             */
+        /* =================================================================== */
+        :root {
+            --primary-bg: #f8f5f0; /* خلفية بيج فاتح */
+            --secondary-bg: #f1ebe2; /* خلفية ثانوية */
+            --dark-brown: #5d4037; /* بني غامق للنصوص */
+            --medium-brown: #8d6e63; /* بني متوسط */
+            --light-brown: #a1887f; /* بني فاتح */
+            --accent-gold: #c8a97e; /* ذهبي فاتح */
+            --dark-gold: #a88b5e; /* ذهبي غامق */
+            --text-dark: #4e342e; /* لون النص الغامق */
+            --text-medium: #795548; /* لون النص المتوسط */
+            --border-color: rgba(141, 110, 99, 0.2); /* لون الحدود */
+            --shadow: 0 10px 30px rgba(93, 64, 55, 0.1); /* ظل بني خفيف */
+            --transition: all 0.4s ease; /* تأثير انتقال سلس */
+        }
+
+        /* إزالة أي هوامش افتراضية وضبط الخط */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--primary-bg);
+            color: var(--text-dark);
+            direction: rtl;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(200, 169, 126, 0.1) 0%, transparent 25%),
+                radial-gradient(circle at 90% 80%, rgba(141, 110, 99, 0.1) 0%, transparent 25%);
+            background-attachment: fixed;
+            overflow-x: hidden;
+        }
+
+        /* تحسين شريط التمرير */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1ebe2;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-gold);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--dark-gold);
+        }
+
+        /* حاوية لتوسيط المحتوى */
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* =================================================================== */
+        /*                   2. الهيدر (اسم الكافيه)                           */
+        /* =================================================================== */
+        header {
+            padding: 2rem 0;
+            text-align: center;
+            margin-bottom: 2rem;
+            background-color: rgba(248, 245, 240, 0.95);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 5px 15px rgba(141, 110, 99, 0.1);
+            animation: slideDown 0.8s ease-out;
+            border-bottom: 2px solid var(--accent-gold);
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .cafe-name {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--dark-brown);
+            margin: 0;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 15px;
+        }
+
+        .cafe-name span {
+            color: var(--accent-gold);
+        }
+
+        .cafe-name::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(to left, var(--accent-gold), var(--dark-brown));
+            border-radius: 3px;
+        }
+
+        .header-subtitle {
+            color: var(--medium-brown);
+            font-size: 1.2rem;
+            margin-top: 10px;
+            letter-spacing: 1px;
+        }
+
+        /* =================================================================== */
+        /*                  3. حاوية صور المنيو                               */
+        /* =================================================================== */
+        .menu-images {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2.5rem;
+            margin-bottom: 4rem;
+        }
+
+        /* تنسيق الصور نفسها */
+        .menu-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            opacity: 0;
+            transform: translateY(30px);
+            background-color: white;
+            border: 1px solid var(--border-color);
+        }
+
+        .menu-item.animate {
+            animation: fadeUp 0.8s ease-out forwards;
+        }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .menu-images img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: var(--transition);
+        }
+
+        .menu-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(93, 64, 55, 0.15);
+        }
+
+        .menu-item:hover img {
+            transform: scale(1.03);
+        }
+
+        /* تأثير رقم الصفحة */
+        .page-number {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background-color: var(--accent-gold);
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.3rem;
+            z-index: 2;
+            box-shadow: 0 4px 10px rgba(93, 64, 55, 0.2);
+            border: 2px solid white;
+        }
+
+        /* =================================================================== */
+        /*                  4. الفوتر (تذييل الصفحة)                          */
+        /* =================================================================== */
+        footer {
+            background-color: var(--secondary-bg);
+            padding: 2.5rem 0;
+            text-align: center;
+            border-top: 2px solid var(--accent-gold);
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .cafe-logo {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--dark-brown);
+            margin-bottom: 5px;
+        }
+
+        .cafe-logo span {
+            color: var(--accent-gold);
+        }
+
+        .footer-info {
+            color: var(--medium-brown);
+            font-size: 1rem;
+            line-height: 1.6;
+            max-width: 600px;
+        }
+
+        .contact-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .phone-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 1.2rem;
+            color: var(--dark-brown);
+            background-color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(93, 64, 55, 0.1);
+            transition: var(--transition);
+            text-decoration: none;
+            border: 2px solid var(--accent-gold);
+        }
+
+        .phone-number:hover {
+            background-color: var(--accent-gold);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .phone-number i {
+            color: var(--accent-gold);
+            transition: var(--transition);
+        }
+
+        .phone-number:hover i {
+            color: white;
+        }
+
+        .facebook-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 1.2rem;
+            color: white;
+            background-color: #1877f2;
+            padding: 12px 25px;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(24, 119, 242, 0.2);
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .facebook-link:hover {
+            background-color: #166fe5;
+            transform: translateY(-3px);
+        }
+
+        .designer-credit {
+            background-color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            margin-top: 1.5rem;
+            border-right: 4px solid var(--accent-gold);
+            box-shadow: 0 5px 15px rgba(93, 64, 55, 0.1);
+        }
+
+        .designer-credit p {
+            color: var(--text-medium);
+            margin-bottom: 5px;
+        }
+
+        .designer-phone {
+            color: var(--dark-brown);
+            font-weight: 700;
+            font-size: 1.3rem;
+            direction: ltr;
+            display: inline-block;
+            padding: 5px 15px;
+            background-color: rgba(200, 169, 126, 0.1);
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+
+        .copyright {
+            color: var(--light-brown);
+            font-size: 0.9rem;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+            width: 100%;
+        }
+
+        /* =================================================================== */
+        /*                  5. زر الانتقال للأعلى                             */
+        /* =================================================================== */
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 50px;
+            height: 50px;
+            background-color: var(--accent-gold);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            cursor: pointer;
+            z-index: 99;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            box-shadow: 0 5px 15px rgba(93, 64, 55, 0.2);
+            border: 2px solid white;
+        }
+
+        .scroll-top.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-top:hover {
+            background-color: var(--dark-brown);
+            transform: translateY(-5px);
+        }
+
+        /* =================================================================== */
+        /*                  6. تأثيرات التحميل                                 */
+        /* =================================================================== */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--primary-bg);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-spinner {
+            width: 70px;
+            height: 70px;
+            border: 5px solid rgba(200, 169, 126, 0.2);
+            border-radius: 50%;
+            border-top-color: var(--accent-gold);
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .loader-text {
+            color: var(--dark-brown);
+            font-size: 1.3rem;
+            letter-spacing: 2px;
+        }
+
+        /* =================================================================== */
+        /*                  7. التجاوب مع الشاشات المختلفة                    */
+        /* =================================================================== */
+        @media (max-width: 768px) {
+            .cafe-name {
+                font-size: 2.2rem;
+            }
+            
+            .header-subtitle {
+                font-size: 1rem;
+            }
+            
+            .menu-images {
+                gap: 1.8rem;
+            }
+            
+            .page-number {
+                width: 40px;
+                height: 40px;
+                font-size: 1.1rem;
+            }
+            
+            .scroll-top {
+                width: 45px;
+                height: 45px;
+                bottom: 20px;
+                left: 20px;
+            }
+            
+            .phone-number, .facebook-link {
+                font-size: 1.1rem;
+                padding: 10px 20px;
+            }
+            
+            .designer-phone {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .cafe-name {
+                font-size: 1.8rem;
+            }
+            
+            .container {
+                width: 95%;
+            }
+            
+            .menu-images {
+                gap: 1.5rem;
+            }
+            
+            .footer-content {
+                padding: 0 15px;
+            }
+            
+            .contact-section {
+                width: 100%;
+            }
+            
+            .phone-number, .facebook-link {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .designer-credit {
+                padding: 12px 15px;
+            }
+            
+            .designer-phone {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- تأثير التحميل -->
+    <div class="loader" id="loader">
+        <div class="loader-spinner"></div>
+        <div class="loader-text">جاري تحميل القائمة...</div>
+    </div>
+
+    <!-- ==========================  الهيدر (اسم الكافيه) ========================== -->
+    <header>
+        <div class="container">
+            <h1 class="cafe-name"><span>الصعيدي</span> درينك</h1>
+            <p class="header-subtitle">أجود المشروبات الساخنة والباردة بأسلوب صعيدي أصيل</p>
+        </div>
+    </header>
+
+    <!-- ==========================  المحتوى الرئيسي (صور المنيو) ========================= -->
+    <main class="container">
+        <div class="menu-images">
+            <!-- صورة صفحة المنيو الأولى -->
+            <div class="menu-item">
+                <div class="page-number">1</div>
+                <img src="img/1.webp" alt="صفحة المنيو 1">
+            </div>
+            
+            <div class="menu-item">
+                <div class="page-number">2</div>
+                <img src="img/2.webp" alt="صفحة المنيو 2">
+            </div>
+            
+            <div class="menu-item">
+                <div class="page-number">3</div>
+                <img src="img/3.webp" alt="صفحة المنيو 3">
+            </div>
+            
+            <div class="menu-item">
+                <div class="page-number">4</div>
+                <img src="img/4.webp" alt="صفحة المنيو 4">
+            </div>
+            
+            <div class="menu-item">
+                <div class="page-number">5</div>
+                <img src="img/5.webp" alt="صفحة المنيو 5">
+            </div>
+            
+            <div class="menu-item">
+                <div class="page-number">6</div>
+                <img src="img/6.webp" alt="صفحة المنيو 6">
+            </div>
+            
+            <div class="menu-item">
+                <div class="page-number">7</div>
+                <img src="img/7.webp" alt="صفحة المنيو 7">
+            </div>
+            
+            <div class="menu-item">
+                <div class="page-number">8</div>
+                <img src="img/8.webp" alt="صفحة المنيو 8">
+            </div>
+        </div>
+    </main>
+
+    <!-- ==========================  الفوتر (تذييل الصفحة) ========================= -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="cafe-logo"><span>الصعيدي</span> درينك</div>
+                <div class="footer-info">
+                    نقدم لكم أجود أنواع المشروبات الساخنة والباردة في أجواء صعيدية مميزة. زورونا لتجربة لا تنسى.
+                </div>
+                
+                <div class="contact-section">
+                  
+                    <a href="https://facebook.com" target="_blank" class="facebook-link">
+                        <i class="fab fa-facebook-f"></i>
+                        <span>تابعنا على فيسبوك</span>
+                    </a>
+                </div>
+                
+                <div class="designer-credit">
+                    <p>تصميم وبرمجة القائمة الإلكترونية:</p>
+                    <div class="designer-phone">01556527636</div>
+                    <p style="font-size: 0.9rem; margin-top: 8px;">لطلب تصميم مشابه لقائمتك</p>
+                </div>
+                
+                <div class="copyright">
+                    جميع الحقوق محفوظة &copy; 2023 | الصعيدي درينك
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- زر الانتقال للأعلى -->
+    <div class="scroll-top" id="scrollTop">
+        <i class="fas fa-chevron-up"></i>
+    </div>
+
+    <script>
+        // إخفاء شاشة التحميل بعد تحميل الصفحة
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                const loader = document.getElementById('loader');
+                loader.classList.add('hidden');
+                
+                // تفعيل الأنيميشن لعناصر المنيو بعد التحميل
+                const menuItems = document.querySelectorAll('.menu-item');
+                menuItems.forEach((item, index) => {
+                    setTimeout(() => {
+                        item.classList.add('animate');
+                    }, index * 150); // تأخير تدريجي لكل عنصر
+                });
+            }, 800);
+        });
+
+        // التحكم في زر الانتقال للأعلى
+        const scrollTopBtn = document.getElementById('scrollTop');
+        
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                scrollTopBtn.classList.add('active');
+            } else {
+                scrollTopBtn.classList.remove('active');
+            }
+        });
+        
+        scrollTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // تأثير عند تمرير الماوس فوق عناصر المنيو
+        const menuItems = document.querySelectorAll('.menu-item');
+        
+        menuItems.forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.zIndex = '10';
+            });
+            
+            item.addEventListener('mouseleave', function() {
+                this.style.zIndex = '1';
+            });
+        });
+
+        // تأثيرات عند التمرير
+        window.addEventListener('scroll', function() {
+            // تأثيرات على العناصر حسب موقعها
+            menuItems.forEach(item => {
+                const itemTop = item.getBoundingClientRect().top;
+                const itemVisible = 150;
+                
+                if (itemTop < window.innerHeight - itemVisible) {
+                    item.classList.add('animate');
+                }
+            });
+        });
+
+        // تفعيل تأثيرات العناصر عند التحميل
+        document.addEventListener('DOMContentLoaded', function() {
+            // التأكد من أن الصفحة تبدأ من الأعلى
+            window.scrollTo(0, 0);
+        });
+    </script>
+</body>
+</html>
