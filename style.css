@@ -178,8 +178,8 @@
         /* تأثير رقم الصفحة */
         .page-number {
             position: absolute;
-            top: 10px;
-            left: 15px;
+            top: 0px;
+            left: -7px;
             background-color: var(--accent-gold);
             color: white;
             width: 45px;
