@@ -1,21 +1,18 @@
 
-        // إخفاء شاشة التحميل بعد تحميل الصفحة
         window.addEventListener('load', function() {
             setTimeout(function() {
                 const loader = document.getElementById('loader');
                 loader.classList.add('hidden');
                 
-                // تفعيل الأنيميشن لعناصر المنيو بعد التحميل
                 const menuItems = document.querySelectorAll('.menu-item');
                 menuItems.forEach((item, index) => {
                     setTimeout(() => {
                         item.classList.add('animate');
-                    }, index * 150); // تأخير تدريجي لكل عنصر
+                    }, index * 150); 
                 });
             }, 800);
         });
 
-        // التحكم في زر الانتقال للأعلى
         const scrollTopBtn = document.getElementById('scrollTop');
         
         window.addEventListener('scroll', function() {
@@ -33,7 +30,6 @@
             });
         });
 
-        // تأثير عند تمرير الماوس فوق عناصر المنيو
         const menuItems = document.querySelectorAll('.menu-item');
         
         menuItems.forEach(item => {
@@ -46,9 +42,7 @@
             });
         });
 
-        // تأثيرات عند التمرير
         window.addEventListener('scroll', function() {
-            // تأثيرات على العناصر حسب موقعها
             menuItems.forEach(item => {
                 const itemTop = item.getBoundingClientRect().top;
                 const itemVisible = 150;
@@ -59,8 +53,6 @@
             });
         });
 
-        // تفعيل تأثيرات العناصر عند التحميل
         document.addEventListener('DOMContentLoaded', function() {
-            // التأكد من أن الصفحة تبدأ من الأعلى
             window.scrollTo(0, 0);
         });
